@@ -27,9 +27,11 @@ class LocalAuthBloc with ChangeNotifier {
   // our methods that consume the service
   void getAvailableMethods() async {
     _availableMethods = await _localAuth.getAvailableMethods();
+    notifyListeners();
   }
 
   void authenticate() async {
     _isAuthenticated = await _localAuth.authenticate();
+    notifyListeners();
   }
 }
