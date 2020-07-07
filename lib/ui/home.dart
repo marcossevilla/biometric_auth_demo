@@ -12,24 +12,30 @@ class HomeView extends StatelessWidget {
       child: Scaffold(
         body: Consumer<LocalAuthBloc>(
           builder: (context, bloc, _) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FlatButton(
-                  child: Text('Authenticate'),
-                  onPressed: bloc.authenticate,
-                ),
-                Text(
-                  '${bloc.isAuthenticated}',
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  '${bloc.availableMethods}',
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            );
+            if (bloc.supportsBiometricAuth) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  FlatButton(
+                    child: Text('Authenticate'),
+                    onPressed: bloc.authenticate,
+                  ),
+                  Text(
+                    '${bloc.isAuthenticated}',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    '${bloc.availableMethods}',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              );
+            } else {
+              return Center(
+                child: Text('Device doesn\'t support biometric auth'),
+              );
+            }
           },
         ),
       ),

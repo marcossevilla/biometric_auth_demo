@@ -10,11 +10,15 @@ import '../services/local_auth_service.dart';
 
 class LocalAuthBloc with ChangeNotifier {
   LocalAuthBloc() {
-    getAvailableMethods();
+    checkBiometricSupport();
   }
 
   // using our service
   final _localAuth = locator<LocalAuthenticationService>();
+
+  // checks if auth is supported
+  bool _supportsBiometricAuth = false;
+  bool get supportsBiometricAuth => _supportsBiometricAuth;
 
   // handle auth state
   bool _isAuthenticated = false;
@@ -25,12 +29,20 @@ class LocalAuthBloc with ChangeNotifier {
   List get availableMethods => _availableMethods;
 
   // our methods that consume the service
-  void getAvailableMethods() async {
+  Future<void> checkBiometricSupport() async {
+    _supportsBiometricAuth = await _localAuth.checkBiometrics();
+    notifyListeners();
+
+    // this is an extra just to show available method, you can omit it
+    if (_supportsBiometricAuth) getAvailableMethods();
+  }
+
+  Future<void> getAvailableMethods() async {
     _availableMethods = await _localAuth.getAvailableMethods();
     notifyListeners();
   }
 
-  void authenticate() async {
+  Future<void> authenticate() async {
     _isAuthenticated = await _localAuth.authenticate();
     notifyListeners();
   }

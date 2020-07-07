@@ -4,7 +4,7 @@ import 'package:local_auth/local_auth.dart';
 class LocalAuthenticationService {
   final _auth = LocalAuthentication();
 
-  bool isAuthenticated = false;
+  bool _isAuthenticated = false;
 
   Future<bool> checkBiometrics() async => await _auth.canCheckBiometrics;
 
@@ -14,12 +14,13 @@ class LocalAuthenticationService {
 
   Future<bool> authenticate() async {
     try {
-      isAuthenticated = await _auth.authenticateWithBiometrics(
+      _isAuthenticated = await _auth.authenticateWithBiometrics(
+        // you can setup a localized string instead of this placeholder one
         localizedReason: 'I need your data',
         useErrorDialogs: true,
         stickyAuth: true,
       );
-      return isAuthenticated;
+      return _isAuthenticated;
     } on PlatformException catch (e) {
       print(e);
       return false;
