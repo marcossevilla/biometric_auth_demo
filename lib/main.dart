@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-import 'locator.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'ui/home.dart';
 
 void main() {
-  initLocator();
-
-  runApp(BiometricAuthDemo());
+  runApp(ProviderScope(child: BiometricAuthDemo()));
 }
 
+/// Starting point of the app
 class BiometricAuthDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Biometric Auth App',
-      home: HomeView(),
+      home: HomePage(),
     );
   }
 }
