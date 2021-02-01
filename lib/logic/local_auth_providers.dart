@@ -29,7 +29,7 @@ final authenticateUser = FutureProvider<void>(
 /// the device supports for biometric authentication
 final biometricMethodsProvider = FutureProvider<List<BiometricType>>(
   (ref) async {
-    final methods = ref.read(_localAuthProvider).getAvailableMethods();
+    final methods = await ref.read(_localAuthProvider).getAvailableMethods();
     return methods;
   },
 );
