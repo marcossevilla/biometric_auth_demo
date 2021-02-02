@@ -37,7 +37,7 @@ class LocalAuthenticationService {
   }
 
   bool _handleError(String errorMessage) {
-    debugPrint(errorMessage.toString());
+    debugPrint(errorMessage);
     return false;
   }
 }
